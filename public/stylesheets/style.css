@@ -1,0 +1,40 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+#listfriend{
+	width: 20%;
+	height: 100%;
+	float: left;
+}
+#messageBox{
+	width: 80%;
+	height: 100%;
+	float: right;
+}
+#message{
+	height: 70%;
+	margin-right: 50%;
+	word-wrap: break-word;
+	overflow-y: scroll;
+}
+#message::-webkit-scrollbar{
+	width: 10px;
+}
+#message::-webkit-scrollbar-thumb{
+	border-radius: 5px;
+	background: rgba(0,0,0,.1);
+}
+#messageBox .messarea{
+	width: 50%;
+	resize: none;
+}
+li{
+	list-style-type:none;
+}
+ul{
+	padding:0;
+}
+a {
+  color: #00B7FF;
+}

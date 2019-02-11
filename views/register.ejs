@@ -1,0 +1,11 @@
+<% include top %>
+<p><%= message %></p>
+<form method='POST' action='/doRegister'>
+    <p>Full Name: <input type='text' name='fullname'></p>
+    <p>Email: <input type='text' name='email'></p>
+    <p>Username: <input type='text' name='username'></p>
+    <p>Password: <input type='password' name='password'></p>
+    <p>Confirm Password: <input type='password' name='password2'></p>
+    <input type='submit' value='Submit' />
+</form>
+<% include bottom %>

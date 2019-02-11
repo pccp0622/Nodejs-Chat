@@ -1,0 +1,8 @@
+<% include top %>
+<p><%= message %></p>
+<form method="POST" action="/doLogin">
+    <p>User name: <input type='text' name='username' /></p>
+    <p>Password: <input type='password' name='password' /></p>
+    <p><input type='submit' value='Submit' /></p>
+</form>
+<% include bottom %>

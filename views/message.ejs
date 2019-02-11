@@ -1,0 +1,68 @@
+<% include top %>
+<script>
+    var socket = undefined;
+        $(document).ready(function() {
+            <% if(!toUser){ %>
+                $('#messageBox').hide();
+            <%}%>
+            socket = io.connect('/'); 
+            <% if(user) { %> 
+                var getmessages = function() {
+                    socket.emit('getmessages', "<%=user.id%>", "<%=idTo%>", 
+                    function(msgs) {
+                        msgs.sort(function(a,b){
+                            return new Date(a.date) - new Date(b.date);
+                        });
+                        $('#message').empty();
+                        if(msgs.length > 0) {
+                            for(var i in msgs) {
+                                if (msgs[i].message.length>0){
+                                    if(msgs[i].idTo==="<%=user.id%>"){
+                                        $('#message').append("<p style='color:#fa3c4c;'>" + msgs[i].date+' ' + "<%=toUser%>" + ": " + msgs[i].message.replace(/\n/g, "<br />") + '</p>');
+                                    }else{
+                                        $('#message').append("<p style='color:#0084ff;'>" + msgs[i].date + ' ' + msgs[i].fromName + ": " +msgs[i].message.replace(/\n/g, "<br />") +'</p>');
+                                    }
+                                }
+                                $('#message').scrollTop($('#message')[0].scrollHeight);
+                            }
+                        }
+                    });
+                };
+                getmessages();
+                socket.on('newmessage', function(id) {
+                getmessages();
+                });
+            <% } %>
+            $("#txtmess").keyup(function(event) {
+                if (event.keyCode === 13) {
+                    $("#send-button").click();
+                }
+            });
+            $("#send-button").click(function() {
+                socket.emit("sendmessage", $("#idTo").val(), "<%=user.id%>", $("#txtmess").val(), function() {
+                        getmessages();
+                    });
+                $("#txtmess").val('');
+            });
+        });
+</script>
+<div id='listfriend'>
+    <p><b>List Friend</b></p>
+    <ul>
+    <% for(var i in users){
+    	if(users[i].id!==user.id){%>
+        <li><a href='/message/<%=users[i].id%>'><%=users[i].name%></a></li>
+        <% } %>
+    <% } %>
+    </ul>
+</div>
+<div id='messageBox'>
+    <p><b><%=toUser%></b> | <a href="/message/<%=idTo%>/delete">Delete</a></p>
+    <div id='message'></div>
+    <div>
+        <input id="idTo" type="hidden" name="idTo" value="<%=idTo%>"></br>
+        <input id="txtmess" type="text" name="message">
+        <button id="send-button">Send</button>
+    </div>
+</div>
+<% include bottom %>
